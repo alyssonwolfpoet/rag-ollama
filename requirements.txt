@@ -1,0 +1,38 @@
+# FastAPI e servidor
+fastapi
+uvicorn[standard]
+
+# Banco de dados PostgreSQL
+psycopg2-binary
+SQLAlchemy
+pgvector
+langchain-postgres
+
+# LangChain LLMs, embeddings e agentes
+langchain
+langchain-community
+
+# Manipulação de arquivos
+pypdf
+pdfplumber
+python-docx
+Pillow
+odfpy
+pandas
+fpdf
+python-multipart
+
+# OCR (comentada, opcional)
+pytesseract
+
+# Áudio e multimodal
+torch
+openai-whisper
+
+# Ferramentas auxiliares
+httpx
+passlib[bcrypt]
+python-jose[cryptography]
+redis
+celery[redis]
+dotenv
