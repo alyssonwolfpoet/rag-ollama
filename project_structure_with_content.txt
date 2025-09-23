@@ -1,0 +1,108 @@
+├─ .env (502 B, modificado: 2025-09-09 23:08)
+    (conteúdo não legível ou binário)
+├─ .env.example (502 B, modificado: 2025-09-09 23:08)
+    (conteúdo não legível ou binário)
+├─ .gitignore (4.8 KB, modificado: 2025-09-09 23:08)
+    (conteúdo não legível ou binário)
+├─ app/
+│  ├─ agent.py (1.5 KB, modificado: 2025-09-20 17:50)
+│      # app/agent.py
+│      from langchain_community.llms import Ollama
+│      from langchain_community.embeddings import OllamaEmbeddings
+│      from langchain.chains import RetrievalQA
+│      from langchain.agents import initialize_agent, Tool, AgentType
+│      from langchain_community.tools import DuckDuckGoSearchRun
+│      from app.vectorstore import get_vectorstore
+│      from app.utils import processing
+│      
+│      # Inicializa LLM multimodal e embeddings
+│  ├─ main.py (2.2 KB, modificado: 2025-09-20 17:50)
+│      # app/main.py
+│      from fastapi import FastAPI, UploadFile, File
+│      from pydantic import BaseModel
+│      from app.agent import agent
+│      from app.utils import files
+│      import psycopg2
+│      import os
+│      
+│      app = FastAPI(title="Super Agente Multimodal Ultimate")
+│      
+│  ├─ utils/
+│  │  ├─ files.py (1.5 KB, modificado: 2025-09-09 23:08)
+│  │      # app/utils/files.py
+│  │      import io
+│  │      import pdfplumber
+│  │      import docx
+│  │      from odf.opendocument import load
+│  │      from odf import text, teletype
+│  │      from PIL import Image
+│  │      import whisper
+│  │      import os
+│  │      
+│  │  └─ processing.py (736 B, modificado: 2025-09-09 23:08)
+│  │      # app/utils/processing.py
+│  │      from fpdf import FPDF
+│  │      import pandas as pd
+│  │      from datetime import datetime
+│  │      
+│  │      def gerar_pdf(texto: str, filename="saida.pdf") -> str:
+│  │          pdf = FPDF()
+│  │          pdf.add_page()
+│  │          pdf.set_font("Arial", size=12)
+│  │          pdf.multi_cell(0, 10, texto)
+│  └─ vectorstore.py (754 B, modificado: 2025-09-20 17:50)
+│      # app/vectorstore.py
+│      from langchain_community.vectorstores import PGVector
+│      from sqlalchemy import create_engine, text
+│      import os
+│      
+│      PG_CONN_INFO = os.getenv("DATABASE_URL", "postgresql+psycopg2://postgres:ifce@localhost:5432/rag")
+│      
+│      def get_vectorstore(embedding_function):
+│          """
+│          Inicializa PGVector e cria extensão 'vector' se não existir.
+├─ base.py (1.2 KB, modificado: 2025-09-18 21:47)
+    from langchain_ollama import OllamaLLM, OllamaEmbeddings
+    from langchain_community.vectorstores import FAISS
+    from langchain.text_splitter import CharacterTextSplitter
+    
+    # LLM
+    llm = OllamaLLM(model="gemma3:latest")
+    
+    # Embeddings
+    embeddings = OllamaEmbeddings(model="nomic-embed-text:latest")
+    
+├─ requirements.txt (523 B, modificado: 2025-09-20 17:50)
+    # FastAPI e servidor
+    fastapi
+    uvicorn[standard]
+    
+    # Banco de dados PostgreSQL
+    psycopg2-binary
+    SQLAlchemy
+    pgvector
+    langchain-postgres
+    
+├─ script_estrutura.py (3.0 KB, modificado: 2025-09-09 23:08)
+    # script_estrutura_conteudo.py
+    import os
+    from datetime import datetime
+    
+    try:
+        import docx
+    except ImportError:
+        docx = None
+    
+    try:
+├─ temp/
+└─ test_pg.py (509 B, modificado: 2025-09-09 23:08)
+    import os
+    from dotenv import load_dotenv
+    import psycopg2
+    
+    # 1️⃣ Carregar variáveis do .env
+    load_dotenv()
+    
+    # 2️⃣ Pegar a URL
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    print("Usando DATABASE_URL:", DATABASE_URL)
